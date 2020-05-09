@@ -44,6 +44,8 @@ public class P12_Highly_divisible_triangular_number {
 	 * 
 	 * The total divisors any number can have is all the combinations possible
 	 * for the prime factors that number has.
+	 * 
+	 * explanation : [https://codereview.stackexchange.com/a/87741]
 	 */
 	private int getDivisorCount(int val) {
 		if (val == 1) return 1;
