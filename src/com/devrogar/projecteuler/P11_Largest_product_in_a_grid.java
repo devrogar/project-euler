@@ -44,6 +44,8 @@ public class P11_Largest_product_in_a_grid {
 	public int largestProduct(int[][] grid) {
 		scanRows(grid);
 		scanColumns(grid);
+		scanPrincipalDiagonals(grid);
+		scanSecondaryDiagonals(grid);
 		return max;
 	}
 
@@ -53,6 +55,7 @@ public class P11_Largest_product_in_a_grid {
 			for (int j=0;j<grid[0].length-3;j++) {
 				product = grid[i][j] * grid[i][j+1] * grid[i][j+2] * grid[i][j+3];
 				if (product > max) {
+					System.out.println(String.format("Row max -> %s * %s * %s * %s = %s", grid[i][j], grid[i][j+1], grid[i][j+2], grid[i][j+3], product));
 					max = product;
 				}
 			}
@@ -64,9 +67,58 @@ public class P11_Largest_product_in_a_grid {
 		for (int j=0;j<grid[0].length;j++) {
 			for (int i=0;i<grid.length-3;i++) {
 				product = grid[i][j] * grid[i+1][j] * grid[i+2][j] * grid[i+3][j];
-						if (product > max) {
-							max = product;
-						}
+				if (product > max) {
+					System.out.println(String.format("Column max -> %s * %s * %s * %s = %s", grid[i][j], grid[i+1][j], grid[i+2][j], grid[i+3][j], product));
+					max = product;
+				}
+			}
+		}
+	}
+
+	private void scanPrincipalDiagonals(int[][] grid) {
+		int product = 0;
+		int i=grid.length-4;
+		int j=0;
+		while(true) {
+			for (int m=i,n=j;m<grid.length-3 && n<grid[0].length-3;m++,n++) {
+				//System.out.println(String.format("i=%s, j=%s, m=%s, n=%s",i,j,m,n));
+				product = grid[m][n] * grid[m+1][n+1] * grid[m+2][n+2] * grid[m+3][n+3];
+				//System.out.println(String.format("PD -> %s * %s * %s * %s = %s", grid[m][n], grid[m+1][n+1], grid[m+2][n+2], grid[m+3][n+3], product));
+				if (product > max) {
+					System.out.println(String.format("PD max -> %s * %s * %s * %s = %s", grid[m][n], grid[m+1][n+1], grid[m+2][n+2], grid[m+3][n+3], product));
+					max = product;
+				}
+			}
+			if (i>0)
+				i--;
+			if (i==0 && j<grid[0].length-3)
+				j++;
+			if (i==0 && j==grid[0].length-3) {
+				break;
+			}
+		}
+	}
+
+	private void scanSecondaryDiagonals(int[][] grid) {
+		int product = 0;
+		int i=0;
+		int j=3;
+		while(true) {
+			for (int m=i,n=j;m<grid[0].length-3 && n>2;m++,n--) {
+				//System.out.println(String.format("i=%s, j=%s, m=%s, n=%s",i,j,m,n));
+				product = grid[m][n] * grid[m+1][n-1] * grid[m+2][n-2] * grid[m+3][n-3];
+				//System.out.println(String.format("SD -> %s * %s * %s * %s = %s", grid[m][n], grid[m+1][n-1], grid[m+2][n-2], grid[m+3][n-3], product));
+				if (product > max) {
+					System.out.println(String.format("SD max -> %s * %s * %s * %s = %s", grid[m][n], grid[m+1][n-1], grid[m+2][n-2], grid[m+3][n-3], product));
+					max = product;
+				}
+			}
+			if (j<grid[0].length-1)
+				j++;
+			if (j == grid[0].length-1 && i<grid.length-3)
+				i++;
+			if (j == grid[0].length-1 && i == grid.length-3) {
+				break;
 			}
 		}
 	}
